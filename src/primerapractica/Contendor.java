@@ -26,10 +26,10 @@ public class Contendor implements IContendor{
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-   
-    public String generarNombre(){
-        return "Equipo"+(int)(Math.random()*50+1);
-    }
+  
+    public void generarNombre(){
+        this.nombre="Equipo"+(int)(Math.random()*50+1);
+    } 
   
     @Override
     public Contendor clonar() {

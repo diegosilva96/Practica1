@@ -12,7 +12,7 @@ public class testEventoContendor {
         System.out.println(evento.gethora());
 
         Evento evento2=(Evento) evento.clonar();
-        System.out.println(evento2.getNombre()+ " "+ evento2.getFecha());
+        evento2.getContendores().get(1).generarNombre();
         System.out.println(evento2.imprimirEvento());
     }
 }

@@ -25,8 +25,8 @@ public class Evento implements IEvento {
         this.hora="01:00";
         Contendor equipo=new Contendor();
         Contendor equipo2=equipo.clonar();
-        equipo.setNombre(equipo.generarNombre());
-        equipo2.setNombre(equipo2.generarNombre());
+        equipo.generarNombre();
+        equipo2.generarNombre();
         contendores=new ArrayList<>();
         contendores.add(equipo);
         contendores.add(equipo2);
