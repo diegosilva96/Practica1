@@ -1,8 +1,9 @@
 
 package models;
 
+import models.interfaces.tieneGanancia;
 import primerapractica.Apostador;
-import models.tieneBonificacion;
+import models.interfaces.tieneBonificacion;
 
 
 public class ApuestaMarcador implements tieneGanancia,tieneBonificacion{

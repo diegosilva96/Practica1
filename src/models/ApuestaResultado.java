@@ -1,6 +1,7 @@
 
 package models;
 
+import models.interfaces.tieneGanancia;
 import primerapractica.Apostador;
 
 
