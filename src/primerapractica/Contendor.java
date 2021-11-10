@@ -1,14 +1,14 @@
 package primerapractica;
 
-public class Contendor implements Cloneable{
+public class Contendor implements IContendor{
 
     String nombre;
     String categoria;
     
   
-    public Contendor(String nombre, String categoria) {
-        this.nombre = nombre;
-        this.categoria = categoria;
+    public Contendor() {
+        this.nombre = "Equipo";
+        this.categoria = "1ra división";
     }
 
     public String getcategoria() {
@@ -27,14 +27,15 @@ public class Contendor implements Cloneable{
         this.nombre = nombre;
     }
    
+    public String generarNombre(){
+        return "Equipo"+(int)(Math.random()*50+1);
+    }
   
     @Override
-    public Contendor clone() {
-        try {
-            return (Contendor) super.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-            return null;
-        }
+    public Contendor clonar() {
+        Contendor c = new Contendor();
+       c.setNombre(nombre);
+       c.setcategoria(categoria);
+       return c;
     }
 }
