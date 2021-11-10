@@ -6,6 +6,11 @@
 package primerapractica;
 
 import javax.swing.table.DefaultTableModel;
+import models.Apuesta.Apuesta;
+import models.Apuesta.ApuestaBuilder;
+import models.Apuesta.ApuestaMarcadorBuilder;
+import models.Apuesta.ApuestaResultadoBuilder;
+import models.Apuesta.DirectorApuesta;
 
 /**
  *
@@ -32,7 +37,6 @@ public class principal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
         buttonGroup1 = new javax.swing.ButtonGroup();
         jLabel3 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
@@ -43,23 +47,10 @@ public class principal extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        field_nombre = new javax.swing.JTextField();
         jButton2 = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         TextArea_Resultado = new javax.swing.JTextArea();
-        tipo1 = new javax.swing.JRadioButton();
-        tipo2 = new javax.swing.JRadioButton();
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 100, Short.MAX_VALUE)
-        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -67,28 +58,31 @@ public class principal extends javax.swing.JFrame {
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel3.setText("Examen");
 
-        jLabel2.setText("* Ingresa tu monto de apuesta en 1 o más partidos");
+        jLabel2.setText("* Si tu apuesta es tipo 1, ingresa solamente score 1 para el equipo ganador.");
 
-        jLabel4.setText("* Si tu tipo de apuesta es 2 es necesario ingresar la predicción ademas del monto apostado.");
+        jLabel4.setText("* Si tu apuesta es tipo 2,ingresa score de los equipos.");
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null},
+                {null, null, null, null, null, null}
             },
             new String [] {
-                "Partidos", "Monto de Apuesta", "Prediccion Resultado"
+                "Equipo 1", "Score", "", "Equipo 2", "Score", "Monto de Apuesta"
             }
         ));
         jScrollPane1.setViewportView(tabla);
+        if (tabla.getColumnModel().getColumnCount() > 0) {
+            tabla.getColumnModel().getColumn(2).setPreferredWidth(30);
+        }
 
         jButton1.setText("Generar Encuentros");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -102,19 +96,15 @@ public class principal extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGap(65, 65, 65)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 522, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
-                        .addGap(65, 65, 65)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(92, 92, 92)
-                                .addComponent(jButton1)))))
+                        .addComponent(jLabel2)
+                        .addGap(92, 92, 92)
+                        .addComponent(jButton1)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -143,17 +133,6 @@ public class principal extends javax.swing.JFrame {
         TextArea_Resultado.setRows(5);
         jScrollPane2.setViewportView(TextArea_Resultado);
 
-        buttonGroup1.add(tipo1);
-        tipo1.setText("Apuesta tipo 1");
-        tipo1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tipo1ActionPerformed(evt);
-            }
-        });
-
-        buttonGroup1.add(tipo2);
-        tipo2.setText("Apuesta Tipo 2");
-
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -161,32 +140,27 @@ public class principal extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 531, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
-                        .addGap(120, 120, 120)
-                        .addComponent(tipo1)
-                        .addGap(18, 18, 18)
-                        .addComponent(tipo2)))
-                .addContainerGap(22, Short.MAX_VALUE))
+                        .addGap(68, 68, 68)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(field_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(21, 21, 21))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
+                .addGap(5, 5, 5)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(tipo1)
-                    .addComponent(tipo2))
-                .addGap(6, 6, 6)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(field_nombre, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -218,31 +192,131 @@ public class principal extends javax.swing.JFrame {
                
         
         for (int i = 0; i < 10; i++) {
-            String partido = (String) modelo.getValueAt(i, 0);
-            String monto = (String) modelo.getValueAt(i, 1);
-            String prediccion = (String) modelo.getValueAt(i, 2); 
+            String equipo1 = (String) modelo.getValueAt(i, 0);
+            String scoreEquipo1 = (String) modelo.getValueAt(i, 1);
+            String equipo2 = (String) modelo.getValueAt(i, 3); 
+            String scoreEquipo2 = (String) modelo.getValueAt(i, 4);
+            String monto = (String) modelo.getValueAt(i, 5);
+            
+            //valida que exista un encuentro y un monto
+            if(!equipo1.equals("") && !equipo2.equals("") && !monto.equals("")){
+                //valida el tipo de apuesta
+                if( (scoreEquipo1.equals("") && scoreEquipo2.equals("")) ||
+                    (scoreEquipo1.equals("") && scoreEquipo2.equals("1")) ||
+                    (scoreEquipo1.equals("1") && scoreEquipo2.equals(""))){
+                    //apuesta tipo1 -> a ganador
+                    
+                        DirectorApuesta da=new DirectorApuesta();
+                        ApuestaBuilder xresultado=new ApuestaResultadoBuilder();
+                        da.setApuestaBuilder(xresultado);
+                        da.contruirApuesta();
+                        Apuesta apuesta=da.getApuesta();
+                        System.out.println(apuesta.getBonificacion() );
+                        
+                        String texto="\n--------------------------\n";
+                        int ganador = (int) Math.floor(Math.random()*2); 
+                        if(
+                            (ganador == 0 && scoreEquipo1.equals("1"))||
+                            (ganador == 1 && scoreEquipo2.equals("1"))
+                        ){
+                        
+                            texto+= "\n#"+i+"\nFelicidades !!!!\n";
+                            texto+= field_nombre.getText()+"\n";
+                            texto+= "Se realizo apuesta x ganador\n";
+                            texto+= "Monto apostado: "+ monto;
+                            double bonificacion = apuesta.getBonificacion();
+                            double total = Double.parseDouble(monto)*bonificacion;
+                            texto+= "Premio: "+ total;
+                            TextArea_Resultado.setText(texto);
+                        }else{
+                            texto+= "\n#"+i+"\n........Siguen Intentando......\n";
+                            texto+= field_nombre.getText()+"\n";
+                            texto+= "Se realizo apuesta x ganador\n";
+                            texto+= "Monto apostado: "+ monto;
+                            double bonificacion = apuesta.getBonificacion();
+                            double total = Double.parseDouble(monto)*bonificacion;
+                            texto+= "Premio: "+ total;
+                            TextArea_Resultado.setText(texto);
+                            
+                        }
+                        
+                }else{
+                    //apuesta tipo2 -> x score
+                    
+                        DirectorApuesta da=new DirectorApuesta();
+                        ApuestaBuilder xScore=new ApuestaResultadoBuilder();
+                        da.setApuestaBuilder(xScore);
+                        da.contruirApuesta();
+                        Apuesta apuesta=da.getApuesta();
+                        System.out.println(apuesta.getBonificacion() );
+                        
+                        String texto="\n--------------------------\n";
+                        int valor1 = (int) Math.floor(Math.random()*3); 
+                        int valor2 = (int) Math.floor(Math.random()*3); 
+                        int ganador;
+                        if (valor2 > valor1)
+                            ganador =1;
+                        else if(valor1 > valor2)
+                            ganador = 0;
+                        else
+                            ganador = 2;
+                        if(
+                                (ganador == 0 && scoreEquipo1.equals(valor1)) ||
+                                (ganador == 1 && scoreEquipo2.equals(valor2)) ||
+                                (ganador == 2 && scoreEquipo1.equals(valor1) && scoreEquipo2.equals(valor2))
+                            )
+                        texto+= field_nombre.getText()+"\n";
+                        texto+= "\n#"+i+"\nSe realizo apuesta x ganador\n";
+                        texto+= "Monto apostado: "+ monto;
+                        texto+= "Prediccion: " + scoreEquipo1 + " - " + scoreEquipo2;
+                        texto+= "Felicidades !!!!\n";
+                        texto+= "Resultado: " + valor1 + " - " + valor2;
+                        double bonificacion = apuesta.getBonificacion();
+                        double total = Double.parseDouble(monto)*bonificacion;
+                        texto+= "Premio: "+ total;
+                        TextArea_Resultado.setText(texto);
+                }
+                
+            }
             //si monto apuesta !=0 registrar apuesta
         }
-        TextArea_Resultado.setText(""+tipo1.isSelected());
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         
         DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
-        tabla.setValueAt("equipo 1 vs equipo 2", 0, 0);
-        tabla.setValueAt("equipo 2 vs equipo 3", 1, 0);
-        tabla.setValueAt("equipo 3 vs equipo 4", 2, 0);
-        tabla.setValueAt("equipo 4 vs equipo 5", 3, 0);
-        tabla.setValueAt("equipo 5 vs equipo 6", 4, 0);
-        tabla.setValueAt("equipo 6 vs equipo 7", 5, 0);
-        tabla.setValueAt("equipo 7 vs equipo 8", 6, 0);
-        tabla.setValueAt("equipo 8 vs equipo 9", 7, 0);
-        tabla.setValueAt("equipo 9 vs equipo 10", 8, 0);
+        tabla.setValueAt("equipo 1", 0, 0);
+        tabla.setValueAt("equipo 2", 1, 0);
+        tabla.setValueAt("equipo 3", 2, 0);
+        tabla.setValueAt("equipo 4", 3, 0);
+        tabla.setValueAt("equipo 5", 4, 0);
+        tabla.setValueAt("equipo 6", 5, 0);
+        tabla.setValueAt("equipo 7", 6, 0);
+        tabla.setValueAt("equipo 8", 7, 0);
+        tabla.setValueAt("equipo 9", 8, 0);
+        
+        tabla.setValueAt("vs", 0, 2);
+        tabla.setValueAt("vs", 1, 2);
+        tabla.setValueAt("vs", 2, 2);
+        tabla.setValueAt("vs", 3, 2);
+        tabla.setValueAt("vs", 4, 2);
+        tabla.setValueAt("vs", 5, 2);
+        tabla.setValueAt("vs", 6, 2);
+        tabla.setValueAt("vs", 7, 2);
+        tabla.setValueAt("vs", 8, 2);
+        
+        
+        tabla.setValueAt("equipo 2", 0, 3);
+        tabla.setValueAt("equipo 3", 1, 3);
+        tabla.setValueAt("equipo 4", 2, 3);
+        tabla.setValueAt("equipo 5", 3, 3);
+        tabla.setValueAt("equipo 6", 4, 3);
+        tabla.setValueAt("equipo 7", 5, 3);
+        tabla.setValueAt("equipo 8", 6, 3);
+        tabla.setValueAt("equipo 9", 7, 3);
+        tabla.setValueAt("equipo 10", 8, 3);
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void tipo1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipo1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tipo1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -284,20 +358,17 @@ public class principal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextArea TextArea_Resultado;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JTextField field_nombre;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTable tabla;
-    private javax.swing.JRadioButton tipo1;
-    private javax.swing.JRadioButton tipo2;
     // End of variables declaration//GEN-END:variables
 }
